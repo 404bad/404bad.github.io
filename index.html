@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>~/kailash.dev</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Kailash Badu is a Backend Developer & DevOps Engineer based in Lalitpur, Nepal, specializing in containerized apps, CI/CD, and building reliable web solutions." />
+    <meta name="keywords" content="Kailash Badu, Backend Developer, DevOps Engineer, Nepal, Lalitpur, Docker, Kubernetes, AWS, Node.js, Express.js" />
+    <meta name="author" content="Kailash Badu" />
+    <meta property="og:title" content="Kailash Badu | Backend Developer & DevOps Engineer" />
+    <meta property="og:description" content="Portfolio of Kailash Badu, a Backend Developer & DevOps Engineer building clean code and scalable systems." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kailashbadu.com.np" />
     <!-- Favicon: terminal emoji as SVG data URI -->
     <link
       rel="icon"
@@ -37,9 +45,28 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=1.2.4" />
   </head>
   <body>
+    <!-- ════════════════════ MAIN CLI OVERLAY ════════════════════ -->
+    <div id="main-cli-overlay">
+      <div id="mainCliOutput" class="main-t-body" role="log" aria-live="polite"></div>
+      <div class="main-t-input-row">
+        <span class="t-prompt-inline">
+          <span class="prompt-user" style="color: #facc15">kailashbadu</span><span class="prompt-at" style="color: #7d8590">@</span><span class="prompt-host" style="color: #4ade80">fedora</span><span class="prompt-colon" style="color: #7d8590">:</span><span class="prompt-dir" style="color: #38bdf8">~</span><span class="prompt-sym" style="color: #7d8590">$</span>
+        </span>
+        <input
+          type="text"
+          id="mainCliInput"
+          class="t-input"
+          autocomplete="off"
+          spellcheck="false"
+          autofocus
+          aria-label="Main terminal input"
+        />
+      </div>
+    </div>
+
     <!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════ -->
     <nav
       class="navbar"
@@ -79,8 +106,8 @@
             >
           </li>
           <li>
-            <a href="#blogs" class="nav-link"
-              ><span class="link-prefix">~/</span>blog</a
+            <a href="#certifications" class="nav-link"
+              ><span class="link-prefix">~/</span>certifications</a
             >
           </li>
           <li>
@@ -91,6 +118,15 @@
         </ul>
 
         <div class="nav-actions">
+          <button
+            class="theme-toggle"
+            id="viewToggle"
+            aria-label="Toggle CLI/GUI mode"
+            title="Toggle terminal interface"
+          >
+            <span class="toggle-icon"><i class="fa-solid fa-code"></i></span>
+            <span class="toggle-label">CLI</span>
+          </button>
           <button
             class="theme-toggle"
             id="themeToggle"
@@ -140,15 +176,14 @@
           <span id="typedOutput"></span
           ><span class="cursor-blink hero-cursor">█</span>
         </h1>
-        <p class="hero-subtitle">
-          Backend Developer &amp; DevOps Engineer — shipping containerized apps, automating pipelines, and living in the terminal.
-        </p>
+        <p class="hero-subtitle" id="hero-subtitle"></p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary"
             ><i class="fa-solid fa-folder-open"></i> View Projects</a
           >
           <a
-            href="assets/Kailash-Badu-CV.pdf"
+            id="hero-cv-btn"
+            href="#"
             download
             class="btn btn-secondary"
           >
@@ -168,7 +203,7 @@
       <div class="container">
         <div class="section-header" data-aos="fade-up">
           <span class="section-tag">// whoami</span>
-          <h2 class="section-title">About <span class="accent">Me</span></h2>
+          <h2 class="section-title">&gt; cat <span class="accent">about.txt</span><span class="cursor-blink">_</span></h2>
         </div>
         <div class="welcome-grid">
           <div class="welcome-text" data-aos="fade-right" data-aos-delay="50">
@@ -183,32 +218,8 @@
               />
               <div class="profile-photo-glow" aria-hidden="true"></div>
             </div>
-            <p>
-              Hey, I'm <strong>Kailash Badu</strong> — a Backend Developer &amp;
-              DevOps Enthusiast based in Lalitpur, Nepal. I build static and
-              dynamic web solutions at <strong>Jasper IT</strong>, lead the
-              development team, and love turning complex problems into clean,
-              reliable systems.
-            </p>
-            <p>
-              Currently pursuing my Bachelor's in Computer &amp; Information
-              Sciences at Tribhuvan University while shipping production code
-              every day.
-            </p>
-            <div class="welcome-stats">
-              <div class="stat-item">
-                <span class="stat-num">2.5+</span>
-                <span class="stat-label">Years Exp.</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-num">20+</span>
-                <span class="stat-label">Projects</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-num">10+</span>
-                <span class="stat-label">Clients</span>
-              </div>
-            </div>
+            <div id="about-paragraphs"></div>
+            <div class="welcome-stats" id="about-stats"></div>
           </div>
           <div
             class="terminal-block interactive-terminal"
@@ -221,6 +232,7 @@
               <span class="t-dot t-yellow"></span>
               <span class="t-dot t-green"></span>
               <span class="t-title">kailash@fedora: ~</span>
+              <button class="t-header-btn" id="tGuiBtn">[ GUI ]</button>
             </div>
             <div
               class="t-body"
@@ -271,73 +283,9 @@
       <div class="container">
         <div class="section-header" data-aos="fade-up">
           <span class="section-tag">// ls -la tools/</span>
-          <h2 class="section-title">My <span class="accent">Stack</span></h2>
+          <h2 class="section-title">&gt; ls <span class="accent">tools/</span><span class="cursor-blink">_</span></h2>
         </div>
-        <div class="tools-grid">
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="0" aria-label="JavaScript">
-            <i class="fa-brands fa-js tool-icon"></i>
-            <span>JavaScript</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="60" aria-label="GitHub">
-            <i class="fa-brands fa-github tool-icon"></i>
-            <span>GitHub</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="120" aria-label="Linux">
-            <i class="fa-brands fa-linux tool-icon"></i>
-            <span>Linux</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="180" aria-label="Docker">
-            <i class="fa-brands fa-docker tool-icon"></i>
-            <span>Docker</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="240" aria-label="AWS">
-            <i class="fa-brands fa-aws tool-icon"></i>
-            <span>AWS</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="300" aria-label="SQL">
-            <i class="fa-solid fa-database tool-icon"></i>
-            <span>SQL</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="360" aria-label="GitHub Actions">
-            <i class="fa-brands fa-github tool-icon"></i>
-            <span>GH Actions</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="420" aria-label="Jenkins">
-            <img
-              src="https://img.icons8.com/color/48/jenkins.png"
-              alt="Jenkins"
-              style="width:2.2rem;height:2.2rem;"
-            />
-            <span>Jenkins</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="480" aria-label="Kubernetes">
-            <img
-              src="https://img.icons8.com/color/48/kubernetes.png"
-              alt="Kubernetes"
-              style="width:2.2rem;height:2.2rem;"
-            />
-            <span>Kubernetes</span>
-          </div>
-
-          <div class="tool-card" data-aos="zoom-in" data-aos-delay="540" aria-label="Terraform">
-            <img
-              src="https://img.icons8.com/color/48/terraform.png"
-              alt="Terraform"
-              style="width:2.2rem;height:2.2rem;"
-            />
-            <span>Terraform</span>
-          </div>
-
-        </div>
+        <div class="tools-grid" id="tools-grid"></div>
       </div>
     </section>
 
@@ -351,336 +299,17 @@
         <div class="section-header" data-aos="fade-up">
           <span class="section-tag">// cat projects.json</span>
           <h2 class="section-title">
-            Featured <span class="accent">Projects</span>
+            &gt; cat <span class="accent">projects.json</span><span class="cursor-blink">_</span>
           </h2>
         </div>
-        <div class="projects-grid">
-          <article class="project-card" data-aos="fade-up" data-aos-delay="0">
-            <div class="project-img-wrap">
-              <img
-                src="./assets/images/codesage.webp"
-                alt=" screenshot for CodeSage project"
-                loading="lazy"
-              />
-              <div class="project-overlay">
-                <a
-                  href="https://codesage-psi.vercel.app/"
-                  class="overlay-btn"
-                  aria-label="View live demo"
-                  target="_blank"
-                  ><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  Live</a
-                >
-                <a
-                  href="https://github.com/kaibad/codesage"
-                  class="overlay-btn overlay-btn-gh"
-                  aria-label="View on GitHub"
-                  ><i class="fa-brands fa-github"></i> GitHub</a
-                >
-              </div>
-            </div>
-            <div class="project-info">
-              <span class="project-tag">Web App</span>
-              <h3>CodeSage</h3>
-              <p>
-                CodeSage is an intelligent code review platform that leverages
-                Google's Gemini API to provide automated, AI-powered code
-                reviews.
-              </p>
-              <h4 style="margin: 15px 0">Tools Used</h4>
-              <div
-                class="used-stack-project0"
-                style="
-                  display: flex;
-                  align-items: center;
-                  flex-wrap: wrap;
-                  gap: 15px;
-                "
-              >
-                <img
-                  width="20"
-                  height="20"
-                  title="Google Gemini"
-                  src="https://img.icons8.com/fluency/48/gemini-ai.png"
-                  alt="gemini-ai"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="TypeScript"
-                  src="https://img.icons8.com/color/48/typescript.png"
-                  alt="typescript"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="postgreesql"
-                  src="https://img.icons8.com/color/48/postgreesql.png"
-                  alt="postgreesql"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="node js"
-                  src="https://img.icons8.com/fluency/48/node-js.png"
-                  alt="node-js"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="express-js"
-                  style="
-                    background-color: #fff;
-                    padding: 2px;
-                    border-radius: 2px;
-                  "
-                  src="https://img.icons8.com/ios/50/express-js.png"
-                  alt="express-js"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="prisma orm"
-                  src="https://img.icons8.com/color/48/prisma-orm.png"
-                  alt="prisma-orm"
-                />
-              </div>
-            </div>
-          </article>
-          <article class="project-card" data-aos="fade-up" data-aos-delay="0">
-            <div class="project-img-wrap">
-              <img
-                src="./assets/images/edutrack.png"
-                alt=" screenshot for CodeSage project"
-                loading="lazy"
-              />
-              <div class="project-overlay">
-                <a
-                  href="https://youtu.be/FJp91VXU-i0?si=ojC8p_ol9RjGss3g"
-                  class="overlay-btn"
-                  aria-label="View live demo"
-                  target="_blank"
-                  ><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  Demo</a
-                >
-                <a
-                  href="https://github.com/kaibad/edutrack"
-                  class="overlay-btn overlay-btn-gh"
-                  aria-label="View on GitHub"
-                  ><i class="fa-brands fa-github"></i> GitHub</a
-                >
-              </div>
-            </div>
-            <div class="project-info">
-              <span class="project-tag">Dashboard</span>
-              <h3>Edutrack</h3>
-              <p>
-                EduTrack is a full-stack Learning Management System built with the PERN stack (PostgreSQL, Express, React, Node.js). 
-              </p>
-              <h4 style="margin: 15px 0">Tools Used</h4>
-              <div
-                class="used-stack-project0"
-                style="
-                  display: flex;
-                  align-items: center;
-                  flex-wrap: wrap;
-                  gap: 15px;
-                "
-              >
-                
-                <img
-                  width="20"
-                  height="20"
-                  title="TypeScript"
-                  src="https://img.icons8.com/color/48/typescript.png"
-                  alt="typescript"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="postgreesql"
-                  src="https://img.icons8.com/color/48/postgreesql.png"
-                  alt="postgreesql"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="node js"
-                  src="https://img.icons8.com/fluency/48/node-js.png"
-                  alt="node-js"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="express-js"
-                  style="
-                    background-color: #fff;
-                    padding: 2px;
-                    border-radius: 2px;
-                  "
-                  src="https://img.icons8.com/ios/50/express-js.png"
-                  alt="express-js"
-                />
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="project-img-wrap">
-              <img
-                src="./assets//images/dailyplanner.webp"
-                alt=" dashboard screenshot for Daily Planner project"
-                loading="lazy"
-              />
-              <div class="project-overlay">
-                <a
-                  href="https://college-esb8.onrender.com/"
-                  class="overlay-btn"
-                  aria-label="View live demo"
-                  ><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  Live</a
-                >
-                <a
-                  href="https://github.com/404bad/college/tree/main/daily_planner"
-                  class="overlay-btn overlay-btn-gh"
-                  aria-label="View on GitHub"
-                  ><i class="fa-brands fa-github"></i> GitHub</a
-                >
-              </div>
-            </div>
-            <div class="project-info">
-              <span class="project-tag">Web App</span>
-              <h3>Daily Planner</h3>
-              <p>
-                Secure full-stack Daily Planner with JWT auth, MongoDB,
-                TypeScript, and a responsive dark-themed UI built in vanilla
-                JavaScript.
-              </p>
-              <h4 style="margin: 15px 0">Tools Used</h4>
-              <div
-                class="used-stack-project0"
-                style="
-                  display: flex;
-                  align-items: center;
-                  flex-wrap: wrap;
-                  gap: 15px;
-                "
-              >
-                <img
-                  width="20"
-                  height="20"
-                  title="TypeScript"
-                  src="https://img.icons8.com/color/48/typescript.png"
-                  alt="typescript"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="MongoDB"
-                  src="https://img.icons8.com/external-tal-revivo-filled-tal-revivo/24/external-mongodb-a-cross-platform-document-oriented-database-program-logo-filled-tal-revivo.png"
-                  alt="external-mongodb-a-cross-platform-document-oriented-database-program-logo-filled-tal-revivo"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="node js"
-                  src="https://img.icons8.com/fluency/48/node-js.png"
-                  alt="node-js"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="express-js"
-                  style="
-                    background-color: #fff;
-                    padding: 2px;
-                    border-radius: 2px;
-                  "
-                  src="https://img.icons8.com/ios/50/express-js.png"
-                  alt="express-js"
-                />
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="project-img-wrap">
-              <img
-                src="./assets/images/authwithmern.webp"
-                alt="Homepage  Screenshot for AuthWithMERN project"
-                loading="lazy"
-              />
-              <div class="project-overlay">
-                <a
-                  href="https://authwithmern.onrender.com/"
-                  class="overlay-btn"
-                  aria-label="View live demo"
-                  ><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  Live</a
-                >
-                <a
-                  href="https://github.com/404bad/AuthWithMERN"
-                  class="overlay-btn overlay-btn-gh"
-                  aria-label="View on GitHub"
-                  ><i class="fa-brands fa-github"></i> GitHub</a
-                >
-              </div>
-            </div>
-            <div class="project-info">
-              <span class="project-tag">Backend</span>
-              <h3>AuthWithMERN</h3>
-              <p>
-                A MERN app to learn authentication flows and sending emails
-                using Mailtrap API. Features secure JWT auth, verify email,
-                welcome emai, forgot and reset email.
-              </p>
-              <h4 style="margin: 15px 0">Tools Used</h4>
-              <div
-                class="used-stack-project0"
-                style="
-                  display: flex;
-                  align-items: center;
-                  flex-wrap: wrap;
-                  gap: 15px;
-                "
-              >
-                <img
-                  width="20"
-                  height="20"
-                  title="TypeScript"
-                  src="https://img.icons8.com/color/48/typescript.png"
-                  alt="typescript"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="MongoDB"
-                  src="https://img.icons8.com/external-tal-revivo-filled-tal-revivo/24/external-mongodb-a-cross-platform-document-oriented-database-program-logo-filled-tal-revivo.png"
-                  alt="external-mongodb-a-cross-platform-document-oriented-database-program-logo-filled-tal-revivo"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="node js"
-                  src="https://img.icons8.com/fluency/48/node-js.png"
-                  alt="node-js"
-                />
-                <img
-                  width="20"
-                  height="20"
-                  title="express-js"
-                  style="
-                    background-color: #fff;
-                    padding: 2px;
-                    border-radius: 2px;
-                  "
-                  src="https://img.icons8.com/ios/50/express-js.png"
-                  alt="express-js"
-                />
-              </div>
-            </div>
-          </article>
+        
+        <div class="filter-bar" data-aos="fade-up" data-aos-delay="50">
+          <button class="filter-btn" data-filter="all">All</button>
+          <button class="filter-btn active" data-filter="devops">DevOps</button>
+          <button class="filter-btn" data-filter="backend">Backend</button>
         </div>
+
+        <div class="projects-grid" id="projects-grid"></div>
         
       </div>
     </section>
@@ -695,117 +324,32 @@
         <div class="section-header" data-aos="fade-up">
           <span class="section-tag">// grep -r "reviews" ./clients/</span>
           <h2 class="section-title">
-            What People <span class="accent">Say</span>
+            &gt; tail <span class="accent">reviews.log</span><span class="cursor-blink">_</span>
           </h2>
         </div>
         <div
           class="testimonials-slider"
+          id="testimonials-slider"
           data-aos="fade-up"
           data-aos-delay="100"
-        >
-          <div class="testimonial-card">
-            <div class="t-quote"><i class="fa-solid fa-quote-left"></i></div>
-            <p class="t-text">
-              Kailash transformed our outdated website into a fast, modern
-              WordPress platform. The design is clean, the performance improved
-              significantly, and managing content is now effortless. Highly
-              professional and easy to work with.
-            </p>
-            <div class="t-author">
-              <div class="t-avatar" aria-hidden="true">SGM</div>
-              <div>
-                <strong>Sudip G. Magar</strong>
-                <span>Infowave Solutions</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="t-quote"><i class="fa-solid fa-quote-left"></i></div>
-            <p class="t-text">
-              What impressed us most about Kailash is his dedication and strong
-              learning mindset. Whenever a new challenge came up, he took the
-              time to research, experiment, and implement the best possible
-              solution. He constantly improves his skills and applies modern
-              practices to deliver high-quality static and WordPress websites.
-            </p>
-            <div class="t-author">
-              <div class="t-avatar" aria-hidden="true">JW</div>
-              <div>
-                <strong>Jimmy W.</strong>
-                <span>Project Manager @ Jasper IT</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        ></div>
       </div>
     </section>
 
-    <!-- ════════════════════════════ BLOGS ══════════════════════════════════ -->
-    <!-- <section class="section blogs-section" id="blogs" aria-label="Blog posts">
+    <!-- ════════════════════════════ CERTIFICATIONS ════════════════════════════ -->
+    <section class="section certifications-section" id="certifications" aria-label="Certifications">
       <div class="container">
         <div class="section-header" data-aos="fade-up">
-          <span class="section-tag">// tail -n 3 blog.log</span>
+          <span class="section-tag">// ls -la ~/certifications</span>
           <h2 class="section-title">
-            Latest <span class="accent">Posts</span>
+            My <span class="accent">Certifications</span>
           </h2>
         </div>
-        <div class="blogs-grid">
-          <article class="blog-card" data-aos="fade-up" data-aos-delay="0">
-            <div class="blog-meta">
-              <span class="blog-date"
-                ><i class="fa-regular fa-calendar"></i> Jan 28, 2025</span
-              >
-              <span class="blog-tag">Linux</span>
-            </div>
-            <h3>
-              Mastering the Linux Kernel: A Practical Guide to System Calls
-            </h3>
-            <p>
-              Dive deep into how user-space programs communicate with the kernel
-              through system calls, with live strace examples.
-            </p>
-            <a href="#" class="blog-read-more"
-              >cat post.md <i class="fa-solid fa-arrow-right"></i
-            ></a>
-          </article>
-
-          <article class="blog-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="blog-meta">
-              <span class="blog-date"
-                ><i class="fa-regular fa-calendar"></i> Feb 10, 2025</span
-              >
-              <span class="blog-tag">Rust</span>
-            </div>
-            <h3>Why I Rewrote My Side Project in Rust and Never Looked Back</h3>
-            <p>
-              A candid look at memory safety, ownership, and the surprisingly
-              short learning curve when coming from C++.
-            </p>
-            <a href="#" class="blog-read-more"
-              >cat post.md <i class="fa-solid fa-arrow-right"></i
-            ></a>
-          </article>
-
-          <article class="blog-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="blog-meta">
-              <span class="blog-date"
-                ><i class="fa-regular fa-calendar"></i> Mar 01, 2025</span
-              >
-              <span class="blog-tag">DevOps</span>
-            </div>
-            <h3>Zero-Downtime Deployments with Kubernetes Rolling Updates</h3>
-            <p>
-              Step-by-step walkthrough of configuring readiness probes,
-              disruption budgets, and canary deployments in k8s.
-            </p>
-            <a href="#" class="blog-read-more"
-              >cat post.md <i class="fa-solid fa-arrow-right"></i
-            ></a>
-          </article>
+        <div class="cert-grid" id="certifications-grid">
+          <!-- Dynamically injected from content.js -->
         </div>
       </div>
-    </section> -->
+    </section>
 
     <!-- ════════════════════════════ CONTACT ════════════════════════════════ -->
     <section class="section contact-section" id="contact" aria-label="Contact">
@@ -813,33 +357,13 @@
         <div class="section-header" data-aos="fade-up">
           <span class="section-tag">// ssh contact@Kailash.dev</span>
           <h2 class="section-title">
-            Get In <span class="accent">Touch</span>
+            &gt; ssh <span class="accent">contact@kailash.dev</span><span class="cursor-blink">_</span>
           </h2>
         </div>
         <div class="contact-grid">
           <div class="contact-info" data-aos="fade-right" data-aos-delay="100">
-            <p>
-              Open to freelance projects, full-time roles, and interesting
-              open-source collaborations. Drop me a message and I'll get back
-              within 24h.
-            </p>
-            <ul class="contact-list" role="list">
-              <li>
-                <i class="fa-solid fa-terminal"></i>
-                <span>badukailash001@gmail.com</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-phone"></i> <span>+977 9843952547</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-location-dot"></i>
-                <span>Lalitpur, Nepal</span>
-              </li>
-              <li>
-                <i class="fa-brands fa-linkedin"></i>
-                <span>linkedin.com/in/kailashbadu-9200142b3</span>
-              </li>
-            </ul>
+            <p id="contact-text"></p>
+            <ul class="contact-list" id="contact-list" role="list"></ul>
           </div>
           <form
             class="contact-form"
@@ -903,68 +427,55 @@
 
     <!-- ════════════════════════════ FOOTER ═════════════════════════════════ -->
     <footer class="footer" role="contentinfo">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <span class="logo-bracket">[</span>
-          <span class="logo-text">
-            kailash<span class="logo-accent">@</span>dev
-          </span>
-          <span class="logo-bracket">]</span>
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-column footer-brand-column">
+            <a href="#hero" class="nav-logo footer-logo">
+              <span class="logo-bracket">[</span>
+              <span class="logo-text">kailash<span class="logo-accent">@</span>dev</span>
+              <span class="logo-bracket">]</span>
+            </a>
+            <p class="footer-tagline" id="footer-tagline"></p>
+            <p class="footer-description" id="footer-description"></p>
+            <div class="footer-social">
+              <a href="https://github.com/kaibad" class="social-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+              <a href="https://www.linkedin.com/in/kailash-badu-9200142b3/" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="mailto:badukailash001@gmail.com" class="social-link" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
 
-          <p class="footer-tagline">
-            <span class="prompt-sym">$</span> echo "Building clean code,
-            scalable systems & meaningful digital experiences."
-          </p>
+          <div class="footer-column">
+            <h3 class="footer-heading">Navigation</h3>
+            <ul class="footer-links">
+              <li><a href="#hero">~/home</a></li>
+              <li><a href="#welcome">~/about</a></li>
+              <li><a href="#tools">~/skills</a></li>
+              <li><a href="#projects">~/projects</a></li>
+              <li><a href="#contact">~/contact</a></li>
+            </ul>
+          </div>
 
-          <p class="footer-description">
-            Passionate Software Developer focused on modern web technologies,
-            Linux environments, and backend architecture. I love turning ideas
-            into efficient, production-ready solutions.
-          </p>
+          <div class="footer-column">
+            <h3 class="footer-heading">Contact</h3>
+            <ul class="footer-contact-info">
+              <li><i class="fa-solid fa-location-dot"></i> Lalitpur, Nepal</li>
+              <li><i class="fa-solid fa-envelope"></i> badukailash001@gmail.com</li>
+              <li><i class="fa-solid fa-phone"></i> +977 9843952547</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="footer-social" aria-label="Social media links">
-          <a
-            href="https://github.com/kaibad"
-            class="social-link"
-            aria-label="GitHub"
-          >
-            <i class="fa-brands fa-github"></i>
-          </a>
-          <a
-            href="https://github.com/404bad"
-            class="social-link"
-            aria-label="GitHub"
-          >
-            <i class="fa-brands fa-github"></i>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/kailash-badu-9200142b3/"
-            class="social-link"
-            aria-label="LinkedIn"
-          >
-            <i class="fa-brands fa-linkedin-in"></i>
-          </a>
+        <div class="footer-divider"></div>
+
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>© <span id="footerYear"></span> <span class="accent">Kailash Badu</span></p>
+          </div>
+          <div class="footer-status-pills">
+            <span class="status-pill"><span class="pill-dot"></span> $STATUS: Online</span>
+            <span class="status-pill secondary"><i class="fa-solid fa-code-branch"></i> v1.2.5</span>
+          </div>
         </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>
-          © <span id="footerYear"></span> Kailash Badu. caffeine & late-night
-          debugging sessions.
-        </p>
-
-        <p class="footer-cmd">
-          <span class="prompt-sym">$</span> whoami
-          <span class="cmd-output"
-            >→ Backend Developer | Devops Enthusiast | Problem Solver</span
-          >
-        </p>
-
-        <p class="footer-cmd">
-          <span class="prompt-sym">$</span> echo $STATUS
-          <span class="cmd-output">→ Online</span>
-        </p>
       </div>
     </footer>
 
@@ -977,6 +488,7 @@
     <!-- Slick -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <!-- App -->
-    <script src="scripts.js"></script>
+    <script src="content.js?t=1713916500"></script>
+    <script src="scripts.js?t=1713916500"></script>
   </body>
 </html>

@@ -11,6 +11,7 @@ $(function () {
   const $toggle = $("#themeToggle");
   const $label = $("#themeLabel");
   const THEME_KEY = "pf_theme";
+  const VIEW_KEY  = "pf_view";   // "cli" | "gui"
   const DARK = "dark";
   const LIGHT = "light";
 
@@ -29,6 +30,29 @@ $(function () {
         .removeClass("fa-terminal")
         .addClass("fa-sun");
     }
+  }
+
+  // ── Centralised view-mode helpers ──────────────────────────
+  function setGuiMode() {
+    $("body").removeClass("cli-mode");
+    $("#viewToggle .toggle-label").text("CLI");
+    localStorage.setItem(VIEW_KEY, "gui");
+  }
+
+  function setCliMode() {
+    $("body").addClass("cli-mode");
+    $("#viewToggle .toggle-label").text("GUI");
+    localStorage.setItem(VIEW_KEY, "cli");
+    setTimeout(() => $("#mainCliInput").focus(), 100);
+    window.scrollTo(0, 0);
+  }
+
+  // Restore saved view preference (default: GUI so about/projects show on first load)
+  const savedView = localStorage.getItem(VIEW_KEY);
+  if (savedView === "cli") {
+    setCliMode();
+  } else {
+    setGuiMode(); // GUI is the default — content visible immediately
   }
 
   // Load saved or system preference
@@ -117,27 +141,8 @@ $(function () {
   });
 
   /* ═══════════════════════════════════════════════════════════
-     4. TYPED.JS — hero heading typing animation
+     4. TYPED.JS (Moved to dynamic injection)
      ═══════════════════════════════════════════════════════════ */
-  if (typeof Typed !== "undefined") {
-    new Typed("#typedOutput", {
-      strings: [
-        "Hello, World.",
-        "I build things for the web.",
-        "I automate everything.",
-        "I ship with Docker & Kubernetes.",
-        "I live in the terminal.",
-        "Let's build something great.",
-      ],
-      typeSpeed: 55,
-      backSpeed: 30,
-      backDelay: 1800,
-      startDelay: 600,
-      loop: true,
-      showCursor: false, // We use our own CSS cursor
-    });
-  }
-
   /* ═══════════════════════════════════════════════════════════
      5. ANIMATED CANVAS BACKGROUND (hero)
      ═══════════════════════════════════════════════════════════ */
@@ -160,6 +165,7 @@ $(function () {
     }
 
     function mkParticle() {
+
       return {
         x: randBetween(0, W),
         y: randBetween(0, H),
@@ -222,22 +228,8 @@ $(function () {
   }
 
   /* ═══════════════════════════════════════════════════════════
-     7. SLICK CAROUSEL — testimonials
+     7. SLICK CAROUSEL — testimonials (initialized in initDynamicContent after content is injected)
      ═══════════════════════════════════════════════════════════ */
-  if ($.fn.slick) {
-    $(".testimonials-slider").slick({
-      slidesToShow: 2,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 4500,
-      speed: 600,
-      dots: true,
-      arrows: false,
-      pauseOnHover: true,
-      cssEase: "cubic-bezier(0.4, 0, 0.2, 1)",
-      responsive: [{ breakpoint: 900, settings: { slidesToShow: 1 } }],
-    });
-  }
 
   /* ═══════════════════════════════════════════════════════════
      8. CONTACT FORM — validation
@@ -404,273 +396,168 @@ $(function () {
     help: () => [
       { t: "info", v: "Available commands:" },
       { t: "blank" },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">whoami</span>       — About me',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">skills</span>       — Technical skill set',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">experience</span>   — Work history',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">projects</span>     — Notable projects',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">education</span>    — Academic background',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">contact</span>      — How to reach me',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">hobbies</span>      — What I do for fun',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">setup</span>        — My dev environment',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">clear</span>        — Clear terminal',
-      },
+      { t: "bullet", v: '<span class="t-line-key">whoami</span>       — About me' },
+      { t: "bullet", v: '<span class="t-line-key">skills</span>       — Technical skill set' },
+      { t: "bullet", v: '<span class="t-line-key">experience</span>   — Work history' },
+      { t: "bullet", v: '<span class="t-line-key">projects</span>     — Notable projects' },
+      { t: "bullet", v: '<span class="t-line-key">education</span>    — Academic background' },
+      { t: "bullet", v: '<span class="t-line-key">contact</span>      — How to reach me' },
+      { t: "bullet", v: '<span class="t-line-key">hobbies</span>      — What I do for fun' },
+      { t: "bullet", v: '<span class="t-line-key">certifications</span> — My certifications' },
+      { t: "bullet", v: '<span class="t-line-key">setup</span>        — My dev environment' },
+      { t: "bullet", v: '<span class="t-line-key">clear</span>        — Clear terminal' },
+      { t: "bullet", v: '<span class="t-line-key">cli</span>          — Go to full-screen CLI' },
       { t: "blank" },
     ],
 
     whoami: () => [
       { t: "out", v: "┌─────────────────────────────────────┐" },
-      { t: "out", v: "│      KAILASH BADU — PROFILE         │" },
+      { t: "out", v: "│      " + PORTFOLIO_DATA.terminalProfile.header + "         │" },
       { t: "out", v: "└─────────────────────────────────────┘" },
       { t: "blank" },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Name       :</span> Kailash Badu',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Role       :</span> Backend Developer & DevOps Engineer',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Location   :</span> Pulchwok, Lalitpur, Nepal',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Experience :</span> 2.5+ years in web development',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Focus      :</span> CI/CD, containerization, backend architecture',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">OS         :</span> Fedora Linux (btw)',
-      },
-      { t: "bullet", v: '<span class="t-line-key">Editor     :</span> Vim' },
-      { t: "bullet", v: '<span class="t-line-key">Shell      :</span> Bash' },
+      { t: "bullet", v: '<span class="t-line-key">Name       :</span> ' + PORTFOLIO_DATA.terminalProfile.name },
+      { t: "bullet", v: '<span class="t-line-key">Role       :</span> ' + PORTFOLIO_DATA.terminalProfile.role },
+      { t: "bullet", v: '<span class="t-line-key">Location   :</span> ' + PORTFOLIO_DATA.terminalProfile.location },
+      { t: "bullet", v: '<span class="t-line-key">Experience :</span> ' + PORTFOLIO_DATA.terminalProfile.experience },
+      { t: "bullet", v: '<span class="t-line-key">Focus      :</span> ' + PORTFOLIO_DATA.terminalProfile.focus },
+      { t: "bullet", v: '<span class="t-line-key">OS         :</span> ' + PORTFOLIO_DATA.terminalProfile.os },
+      { t: "bullet", v: '<span class="t-line-key">Editor     :</span> ' + PORTFOLIO_DATA.terminalProfile.editor },
+      { t: "bullet", v: '<span class="t-line-key">Shell      :</span> ' + PORTFOLIO_DATA.terminalProfile.shell },
       { t: "blank" },
-      {
-        t: "info",
-        v: "Building reliable web solutions from Kathmandu. Open to new opportunities.",
-      },
+      { t: "info", v: PORTFOLIO_DATA.terminalProfile.footer },
       { t: "blank" },
     ],
 
-    skills: () => [
-      { t: "info", v: "$ cat skills.json" },
-      { t: "blank" },
-      { t: "out", v: '<span class="t-line-key">Languages  :</span>' },
-      { t: "bullet", v: "JavaScript          ██████████░░  Advanced" },
-      { t: "bullet", v: "PHP                 ████████░░░░  Intermediate" },
-      { t: "bullet", v: "SQL                 ████████░░░░  Intermediate" },
-      { t: "bullet", v: "Bash                ████████░░░░  Intermediate" },
-      { t: "blank" },
-      { t: "out", v: '<span class="t-line-key">Frontend   :</span>' },
-      { t: "bullet", v: "HTML5, CSS3, React, Next.js" },
-      { t: "blank" },
-      { t: "out", v: '<span class="t-line-key">Backend    :</span>' },
-      {
-        t: "bullet",
-        v: "Node.js, Express, REST APIs, WordPress / WooCommerce",
-      },
-      { t: "blank" },
-      { t: "out", v: '<span class="t-line-key">DevOps     :</span>' },
-      { t: "bullet", v: "Docker, Kubernetes, Terraform, GitHub Actions, Jenkins, Linux" },
-      { t: "blank" },
-      { t: "out", v: '<span class="t-line-key">Databases  :</span>' },
-      { t: "bullet", v: "MySQL, PostgreSQL, SQLite" },
-      { t: "blank" },
-    ],
+    skills: () => {
+      let res = [
+        { t: "info", v: "$ cat skills.json" },
+        { t: "blank" },
+        { t: "out", v: '<span class="t-line-key">Languages  :</span>' }
+      ];
+      PORTFOLIO_DATA.skills.languages.forEach(l => {
+        res.push({ t: "bullet", v: `${l.name.padEnd(20)}${l.bar}  ${l.level}` });
+      });
+      res.push({ t: "blank" });
+      res.push({ t: "out", v: '<span class="t-line-key">Frontend   :</span>' });
+      res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.frontend });
+      res.push({ t: "blank" });
+      res.push({ t: "out", v: '<span class="t-line-key">Backend    :</span>' });
+      res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.backend });
+      res.push({ t: "blank" });
+      res.push({ t: "out", v: '<span class="t-line-key">DevOps     :</span>' });
+      res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.devops });
+      res.push({ t: "blank" });
+      res.push({ t: "out", v: '<span class="t-line-key">Databases  :</span>' });
+      res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.databases });
+      res.push({ t: "blank" });
+      return res;
+    },
 
-    experience: () => [
-      { t: "info", v: "$ cat experience.log" },
-      { t: "blank" },
-      {
-        t: "out",
-        v: '<span class="t-line-key">[ May 2023 – Present ]  Web Developer @ Jasper IT, Lalitpur</span>',
-      },
-      {
-        t: "bullet",
-        v: "Build static websites with PHP, HTML, CSS & JavaScript",
-      },
-      {
-        t: "bullet",
-        v: "Develop dynamic sites by customising WordPress themes",
-      },
-      {
-        t: "bullet",
-        v: "Implement WooCommerce solutions for eCommerce clients",
-      },
-      { t: "bullet", v: "Lead the development team & handle troubleshooting" },
-      { t: "bullet", v: "Ensure smooth, responsive & functional deliverables" },
-      { t: "blank" },
-    ],
+    experience: () => {
+      let res = [
+        { t: "info", v: "$ cat experience.log" },
+        { t: "blank" }
+      ];
+      PORTFOLIO_DATA.experience.forEach(exp => {
+        res.push({ t: "out", v: `<span class="t-line-key">[ ${exp.period} ]  ${exp.role} @ ${exp.company}, ${exp.location}</span>` });
+        exp.tasks.forEach(task => res.push({ t: "bullet", v: task }));
+        res.push({ t: "blank" });
+      });
+      return res;
+    },
 
-    projects: () => [
-      { t: "info", v: "$ ls -la ~/projects/" },
-      { t: "blank" },
+    projects: () => {
+      let res = [
+        { t: "info", v: "$ ls -la ~/projects/" },
+        { t: "blank" }
+      ];
+      PORTFOLIO_DATA.projects.forEach(p => {
+        res.push({ t: "out", v: `<span class="t-line-key">${p.title}</span>   [${p.tag}]` });
+        res.push({ t: "bullet", v: p.description });
+        let stackList = p.stack.map(s => s.title).join(", ");
+        res.push({ t: "bullet", v: stackList });
+        res.push({ t: "blank" });
+      });
+      return res;
+    },
 
-      {
-        t: "out",
-        v: '<span class="t-line-key">CodeSage</span>   [Web App / AI]',
-      },
-      {
-        t: "bullet",
-        v: "Intelligent code review platform using Google Gemini API",
-      },
-      {
-        t: "bullet",
-        v: "TypeScript, Node.js, Express, PostgreSQL, Prisma ORM",
-      },
-      { t: "blank" },
+    education: () => {
+      let res = [
+        { t: "info", v: "$ cat education.txt" },
+        { t: "blank" }
+      ];
+      
+      const eduList = PORTFOLIO_DATA.about.education || [];
+      if (Array.isArray(eduList)) {
+        eduList.forEach(edu => {
+          res.push({ t: "out", v: `<span class="t-line-key">[ ${edu.period} ]  ${edu.degree}</span>` });
+          res.push({ t: "bullet", v: `${edu.school} (${edu.details})` });
+          res.push({ t: "blank" });
+        });
+      } else {
+        // Fallback if cache is still holding the old string format
+        res.push({ t: "out", v: '<span class="t-line-key">[ Jan 2022 – Jul 2026 ]  Bachelor\'s Degree</span>' });
+        res.push({ t: "bullet", v: eduList });
+        res.push({ t: "blank" });
+      }
 
-      {
-        t: "out",
-        v: '<span class="t-line-key">Daily Planner</span>   [Web App / Full-Stack]',
-      },
-      {
-        t: "bullet",
-        v: "Secure full-stack planner with JWT auth, MongoDB, and vanilla JS UI",
-      },
-      {
-        t: "bullet",
-        v: "TypeScript, Node.js, Express, MongoDB, Responsive Design",
-      },
-      { t: "blank" },
-
-      {
-        t: "out",
-        v: '<span class="t-line-key">AuthWithMERN</span>   [Backend / MERN]',
-      },
-      {
-        t: "bullet",
-        v: "Learned auth flows with JWT & Mailtrap email integration",
-      },
-      { t: "bullet", v: "TypeScript, Node.js, Express, MongoDB, JWT" },
-      { t: "blank" },
-
-      {
-        t: "out",
-        v: '<span class="t-line-key">Infowave IT Solutions</span>   [WordPress]',
-      },
-      {
-        t: "bullet",
-        v: "WordPress site with custom themes, responsive design, dynamic content",
-      },
-      { t: "bullet", v: "Bootstrap, JavaScript, MySQL, WordPress Plugins" },
-      { t: "blank" },
-    ],
-
-    education: () => [
-      { t: "info", v: "$ cat education.txt" },
-      { t: "blank" },
-      {
-        t: "out",
-        v: '<span class="t-line-key">[ Jan 2022 – Jul 2026 ]  Bachelor\'s Degree</span>',
-      },
-      { t: "bullet", v: "Computer & Information Sciences, General" },
-      { t: "bullet", v: "IOST — Tribhuvan University, Nepal" },
-      { t: "blank" },
-      { t: "out", v: '<span class="t-line-key">Certifications :</span>' },
-      { t: "bullet", v: "AI for You: Training and Assessment" },
-      { t: "blank" },
-    ],
+      res.push({ t: "out", v: '<span class="t-line-key">Certifications :</span>' });
+      PORTFOLIO_DATA.certifications.forEach(cert => {
+        res.push({ t: "bullet", v: `${cert.title} (${cert.issuer})` });
+      });
+      res.push({ t: "blank" });
+      return res;
+    },
 
     contact: () => [
       { t: "info", v: "$ cat contact.conf" },
       { t: "blank" },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Phone    :</span> +977 9843952547',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Email    :</span> kailashbaduatwork@gmail.com',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">LinkedIn :</span> linkedin.com/in/kailashbadu-9200142b3',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Location :</span> Lalitpur, Nepal',
-      },
+      { t: "bullet", v: '<span class="t-line-key">Phone    :</span> ' + PORTFOLIO_DATA.contact.phone },
+      { t: "bullet", v: '<span class="t-line-key">Email    :</span> ' + PORTFOLIO_DATA.contact.email },
+      { t: "bullet", v: '<span class="t-line-key">LinkedIn :</span> ' + PORTFOLIO_DATA.contact.linkedin },
+      { t: "bullet", v: '<span class="t-line-key">Location :</span> ' + PORTFOLIO_DATA.contact.location },
       { t: "blank" },
-      {
-        t: "info",
-        v: "Available for freelance & full-time roles. Response within 24h.",
-      },
+      { t: "info", v: PORTFOLIO_DATA.contact.availability },
       { t: "blank" },
     ],
 
-    hobbies: () => [
-      { t: "info", v: "$ cat hobbies.txt" },
-      { t: "blank" },
-      { t: "bullet", v: "🏏🏓 Cricket & Table Tennis" },
-      { t: "bullet", v: "💻 Building personal projects" },
-      {
-        t: "bullet",
-        v: "📚 Reading: systems design, technology, sci-fi, and philosophy",
-      },
-      {
-        t: "bullet",
-        v: "🏔️ Weekend hiking, trail running, and nature exploration",
-      },
-      { t: "bullet", v: "☕ Specialty coffee enthusiast — pour-over purist" },
-      { t: "blank" },
-    ],
+    hobbies: () => {
+      let res = [
+        { t: "info", v: "$ cat hobbies.txt" },
+        { t: "blank" }
+      ];
+      PORTFOLIO_DATA.hobbies.forEach(h => res.push({ t: "bullet", v: h }));
+      res.push({ t: "blank" });
+      return res;
+    },
+
+    certifications: () => {
+      let res = [
+        { t: "info", v: "$ ls -la ~/certifications/" },
+        { t: "blank" }
+      ];
+      PORTFOLIO_DATA.certifications.forEach(c => {
+        res.push({ t: "out", v: `<span class="t-line-key">${c.title}</span>   [${c.issuer}]` });
+        res.push({ t: "bullet", v: `Date: ${c.date}` });
+        res.push({ t: "blank" });
+      });
+      return res;
+    },
 
     setup: () => [
       { t: "info", v: "$ neofetch --minimal" },
       { t: "blank" },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">OS       :</span> Fedora Linux x86_64',
-      },
-      { t: "bullet", v: '<span class="t-line-key">Shell    :</span> Bash' },
-      { t: "bullet", v: '<span class="t-line-key">Editor   :</span> Vim' },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Browser  :</span> Chrome',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Terminal :</span> GNOME Terminal',
-      },
-      {
-        t: "bullet",
-        v: '<span class="t-line-key">Font     :</span> JetBrains Mono',
-      },
+      { t: "bullet", v: '<span class="t-line-key">OS       :</span> ' + PORTFOLIO_DATA.setup.os },
+      { t: "bullet", v: '<span class="t-line-key">Shell    :</span> ' + PORTFOLIO_DATA.setup.shell },
+      { t: "bullet", v: '<span class="t-line-key">Editor   :</span> ' + PORTFOLIO_DATA.setup.editor },
+      { t: "bullet", v: '<span class="t-line-key">Browser  :</span> ' + PORTFOLIO_DATA.setup.browser },
+      { t: "bullet", v: '<span class="t-line-key">Terminal :</span> ' + PORTFOLIO_DATA.setup.terminal },
+      { t: "bullet", v: '<span class="t-line-key">Font     :</span> ' + PORTFOLIO_DATA.setup.font },
       { t: "blank" },
     ],
 
     clear: () => null, // special — handled separately
+    cli: () => null, // special — handled separately
   };
 
   // ── Render helpers ────────────────────────────────────────
@@ -718,6 +605,17 @@ $(function () {
 
   // ── Boot message ──────────────────────────────────────────
   function bootTerminal() {
+    const ascii = [
+      "  _  __      _ _           _     ",
+      " | |/ /     (_) |         | |    ",
+      " | ' /  __ _ _| | __ _ ___| |__  ",
+      " |  <  / _` | | |/ _` / __| '_ \\ ",
+      " | . \\| (_| | | | (_| \\__ \\ | | |",
+      " |_|\\_\\\\__,_|_|_|\\__,_|___/_| |_|"
+    ].join("\n");
+    
+    appendLine('<pre style="color: var(--accent); font-weight: bold;">' + ascii + '</pre>', "t-line-out");
+
     appendLine(
       '<span class="t-line-info">Welcome to Kailash\'s interactive portfolio terminal.</span>',
       "t-line-out",
@@ -750,8 +648,16 @@ $(function () {
       return;
     }
 
-    if (COMMANDS[cmd]) {
-      const result = COMMANDS[cmd]();
+    if (cmd === "cli") {
+      setCliMode();
+      return;
+    }
+
+    let executeCmd = cmd;
+    if (cmd === "ls") executeCmd = "projects";
+
+    if (COMMANDS[executeCmd]) {
+      const result = COMMANDS[executeCmd]();
       if (result) printLines(result);
     } else {
       appendLine(
@@ -842,4 +748,424 @@ $(function () {
       $(this).trigger("click");
     }
   });
+  /* ═══════════════════════════════════════════════════════════
+     14. PROJECT FILTERING
+     ═══════════════════════════════════════════════════════════ */
+  const $filterBtns = $(".filter-btn");
+  const $projectCards = $(".project-card");
+
+  function filterProjects(category) {
+    $(".project-card").each(function () {
+      const pCat = $(this).attr("data-category");
+      if (category === "all" || pCat === category) {
+        $(this).removeClass("hide").css("opacity", 0).animate({ opacity: 1 }, 300);
+      } else {
+        $(this).addClass("hide");
+      }
+    });
+  }
+
+  $filterBtns.on("click", function () {
+    $filterBtns.removeClass("active");
+    $(this).addClass("active");
+    const filterValue = $(this).attr("data-filter");
+    filterProjects(filterValue);
+  });
+
+  // Project filtering default logic moved to dynamic injection
+
+  /* ═══════════════════════════════════════════════════════════
+     15. CLI / GUI TOGGLE
+     ═══════════════════════════════════════════════════════════ */
+  $("#viewToggle").on("click", function () {
+    if ($("body").hasClass("cli-mode")) {
+      setGuiMode();
+    } else {
+      setCliMode();
+    }
+  });
+
+  $("#tGuiBtn").on("click", function () {
+    setGuiMode();
+  });
+
+  /* ═══════════════════════════════════════════════════════════
+     16. MAIN CLI TERMINAL LOGIC
+     ═══════════════════════════════════════════════════════════ */
+  const $mainTermOutput = $("#mainCliOutput");
+  const $mainTermInput = $("#mainCliInput");
+  const mainHistory = [];
+  let mainHistIdx = -1;
+
+  const MAIN_COMMANDS = {
+    // ── Help (CLI-specific: includes gui command instead of cli) ──
+    help: () => [
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">about</span>          - about Kailash' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">certifications</span> - my certifications' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">clear</span>          - clear the terminal' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">contact</span>        - how to reach me' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">echo</span>        - print out anything' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">education</span>   - my education background' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">email</span>       - send an email to me' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">experience</span>  - work history' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">gui</span>         - go to my portfolio in GUI' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">help</span>        - check available commands' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">history</span>     - view command history' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">hobbies</span>     - what I do for fun' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">projects</span>    - view projects that I\'ve coded' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">pwd</span>         - print current working directory' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">setup</span>       - my dev environment' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">skills</span>      - technical skill set' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">socials</span>     - check out my social accounts' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">themes</span>      - check available themes' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">welcome</span>     - display hero section' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">whoami</span>      - about current user' },
+      { t: "blank" },
+      { t: "info", v: 'Tab or Ctrl + i => autocompletes the command' },
+      { t: "info", v: 'Up Arrow        => go back to previous command' },
+      { t: "info", v: 'Ctrl + l        => clear the terminal' },
+    ],
+
+    // ── Shared commands — point directly to GUI COMMANDS (single source of truth) ──
+    education:  COMMANDS.education,
+    projects:   COMMANDS.projects,
+    skills:     COMMANDS.skills,
+    experience: COMMANDS.experience,
+    contact:    COMMANDS.contact,
+    hobbies:    COMMANDS.hobbies,
+    certifications: COMMANDS.certifications,
+    setup:      COMMANDS.setup,
+    whoami:     COMMANDS.whoami,
+
+    // ── CLI-only commands (or commands missing from GUI COMMANDS) ──
+    about: () => PORTFOLIO_DATA.about.paragraphs.map(p => ({ t: "out", v: p.replace(/<\/?[^>]+(>|$)/g, "") })),
+    socials: () => PORTFOLIO_DATA.socials.map((s, i) => ({ t: "out", v: `<a href="${s.url}" target="_blank" style="color: #4ade80">${i + 1}. ${s.name}</a>` })),
+    email: () => {
+       window.location.href = `mailto:${PORTFOLIO_DATA.general.email}`;
+       return [{ t: "out", v: `Opening default email client for ${PORTFOLIO_DATA.general.email}...` }];
+    },
+    pwd: () => [
+      { t: "out", v: "/home/kailashbadu" }
+    ],
+    themes: () => [
+      { t: "out", v: "Available themes:" },
+      { t: "out", v: "- dark (default)" },
+      { t: "out", v: "- light" },
+      { t: "info", v: 'Use "themes toggle" to switch.' }
+    ],
+    echo: (args) => [
+      { t: "out", v: args.join(" ") }
+    ],
+    history: () => {
+      return mainHistory.map((cmd, i) => ({ t: "out", v: `${i + 1}  ${cmd}` })).reverse();
+    },
+  };
+
+  function mainAppendHtml(html, cls = "t-line-out") {
+    $mainTermOutput.append($("<span>").addClass("t-line " + cls).html(html));
+  }
+
+  function mainBootTerminal() {
+    $mainTermOutput.empty();
+    const ascii = [
+      "  _  __      _ _           _     ",
+      " | |/ /     (_) |         | |    ",
+      " | ' /  __ _ _| | __ _ ___| |__  ",
+      " |  <  / _` | | |/ _` / __| '_ \\ ",
+      " | . \\| (_| | | | (_| \\__ \\ | | |",
+      " |_|\\_\\\\__,_|_|_|\\__,_|___/_| |_|"
+    ].join("\n");
+    mainAppendHtml('<pre style="color: var(--accent); font-weight: bold;">' + ascii + '</pre>');
+    
+    if (typeof PORTFOLIO_DATA !== "undefined") {
+      const d = PORTFOLIO_DATA;
+      mainAppendHtml('<span style="color:var(--accent);font-weight:700;font-size:1.05em;">' + d.general.name + '</span> <span style="color:var(--text-muted);">// ' + d.general.role + '</span>');
+      mainAppendHtml("", "t-line-blank");
+      
+      mainAppendHtml('<span style="color:var(--border-glow);">──────────────────────────────────────────────────</span>');
+      mainAppendHtml("", "t-line-blank");
+
+      mainAppendHtml('<span style="color:var(--accent2);">$ cat about.txt</span>', "t-line-info");
+      mainAppendHtml("", "t-line-blank");
+      d.about.paragraphs.forEach(p => {
+        const clean = p.replace(/<\\?[^>]+(>|$)/g, "");
+        mainAppendHtml(clean);
+        mainAppendHtml("", "t-line-blank");
+      });
+
+      mainAppendHtml('<span style="color:var(--accent2);">$ ls tools/</span>', "t-line-info");
+      mainAppendHtml("", "t-line-blank");
+      const toolNames = d.tools.map(t => t.name).join("  ·  ");
+      mainAppendHtml('<span style="color:var(--accent3);">' + toolNames + '</span>');
+      mainAppendHtml("", "t-line-blank");
+
+      mainAppendHtml('<span style="color:var(--border-glow);">──────────────────────────────────────────────────</span>');
+      mainAppendHtml("", "t-line-blank");
+    }
+
+    mainAppendHtml(
+      'Switch to GUI: <a href="#" onclick="window.runMainCommand(\'gui\'); return false;" style="color:var(--accent);text-decoration:underline;">\'gui\'</a>' +
+      '  ·  Commands: <span style="color:var(--accent);">\'help\'</span>'
+    );
+    mainAppendHtml("", "t-line-blank");
+  }
+
+  function runMainCommand(raw) {
+    const args = raw.trim().split(" ");
+    const cmd = args[0].toLowerCase();
+    if (!cmd) return;
+
+    // Echo prompt + command
+    mainAppendHtml(
+      '<span class="prompt-user" style="color:#facc15">kailashbadu</span><span class="prompt-at" style="color:#7d8590">@</span><span class="prompt-host" style="color:#4ade80">fedora</span><span class="prompt-colon" style="color:#7d8590">:</span><span class="prompt-dir" style="color:#38bdf8">~</span><span class="prompt-sym" style="color:#7d8590">$</span> ' +
+      raw
+    );
+
+    if (cmd === "clear") {
+      $mainTermOutput.empty();
+      return;
+    }
+
+    if (cmd === "gui") {
+      setGuiMode();
+      return;
+    }
+
+    if (cmd === "welcome") {
+      mainBootTerminal();
+      return;
+    }
+
+    if (cmd === "themes" && args[1] === "toggle") {
+      $("#themeToggle").click();
+      const newTheme = $("body").attr("data-theme") === "light" ? "light" : "dark";
+      mainAppendHtml(`Switched to ${newTheme} theme.`, "t-line-info");
+      mainAppendHtml("", "t-line-blank");
+      $mainTermOutput.scrollTop($mainTermOutput[0].scrollHeight);
+      return;
+    }
+
+    let executeCmd = cmd;
+    if (cmd === "ls") executeCmd = "projects";
+
+    if (MAIN_COMMANDS[executeCmd]) {
+      const result = MAIN_COMMANDS[executeCmd](args.slice(1));
+      if (result) {
+        result.forEach(l => {
+          let cls = "t-line-out";
+          if (l.t === "err") cls = "t-line-err";
+          if (l.t === "info") cls = "t-line-info";
+          if (l.t === "blank") cls = "t-line-blank";
+          if (l.t === "bullet") cls = "t-line-out t-line-bullet";
+          mainAppendHtml(l.v || "", cls);
+        });
+      }
+    } else {
+      mainAppendHtml(`Command not found: ${cmd}. Type 'help' for available commands.`, "t-line-err");
+    }
+    
+    mainAppendHtml("", "t-line-blank");
+    $mainTermOutput.scrollTop($mainTermOutput[0].scrollHeight);
+  }
+
+  $mainTermInput.on("keydown", function (e) {
+    if (e.key === "Enter") {
+      const val = $(this).val();
+      if (val.trim()) {
+        mainHistory.unshift(val);
+        mainHistIdx = -1;
+      }
+      runMainCommand(val);
+      $(this).val("");
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (mainHistIdx < mainHistory.length - 1) mainHistIdx++;
+      $(this).val(mainHistory[mainHistIdx] || "");
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (mainHistIdx > 0) mainHistIdx--;
+      else {
+        mainHistIdx = -1;
+        $(this).val("");
+        return;
+      }
+      $(this).val(mainHistory[mainHistIdx] || "");
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      const partial = $(this).val().trim().toLowerCase();
+      const match = Object.keys(MAIN_COMMANDS).concat(["clear", "gui", "welcome"]).find((k) => k.startsWith(partial));
+      if (match) $(this).val(match);
+    }
+  });
+
+  // Global Ctrl+L shortcut for main terminal
+  $(document).on("keydown", function (e) {
+    if (e.ctrlKey && e.key.toLowerCase() === "l" && $("body").hasClass("cli-mode")) {
+      e.preventDefault();
+      $mainTermOutput.empty();
+    }
+  });
+
+  // Focus input on click
+  $("#main-cli-overlay").on("click", function() {
+    $mainTermInput.focus();
+  });
+
+  mainBootTerminal();
+
+  // Expose runMainCommand globally so inline onclick="runMainCommand('gui')" works
+  window.runMainCommand = runMainCommand;
+
+  /* ═══════════════════════════════════════════════════════════
+     17. DYNAMIC CONTENT INJECTION (Synchronous from content.js)
+     ═══════════════════════════════════════════════════════════ */
+  function initDynamicContent() {
+    if (typeof PORTFOLIO_DATA === "undefined") {
+      console.error("PORTFOLIO_DATA is not defined. Make sure content.js is loaded.");
+      return;
+    }
+    const data = PORTFOLIO_DATA;
+
+    // 1. Hero
+    $("#hero-subtitle").text(data.general.subtitle);
+    $("#hero-cv-btn").attr("href", data.general.resumeLink);
+
+    if (typeof Typed !== "undefined") {
+      new Typed("#typedOutput", {
+        strings: data.general.heroTyped,
+        typeSpeed: 55,
+        backSpeed: 30,
+        backDelay: 1800,
+        startDelay: 600,
+        loop: true,
+        showCursor: false,
+      });
+    }
+
+    // 2. About
+    data.about.paragraphs.forEach(p => {
+      $("#about-paragraphs").append($("<p>").html(p));
+    });
+    data.about.stats.forEach(s => {
+      $("#about-stats").append(`
+        <div class="stat-item">
+          <span class="stat-num">${s.num}</span>
+          <span class="stat-label">${s.label}</span>
+        </div>
+      `);
+    });
+
+    // 3. Tools
+    data.tools.forEach((t, i) => {
+      let iconHtml = t.icon ? `<i class="${t.icon} tool-icon"></i>` : `<img src="${t.img}" alt="${t.name}" style="width:2.2rem;height:2.2rem;" loading="lazy" />`;
+      $("#tools-grid").append(`
+        <div class="tool-card" data-aos="zoom-in" data-aos-delay="${(i % 10) * 60}" aria-label="${t.name}">
+          ${iconHtml}
+          <span>${t.name}</span>
+        </div>
+      `);
+    });
+
+    // 4. Projects
+    data.projects.forEach((p, i) => {
+      let stackHtml = p.stack.map(s => {
+        let style = s.bg ? 'style="background-color: #fff; padding: 2px; border-radius: 2px;"' : '';
+        return `<img width="20" height="20" title="${s.title}" src="${s.img}" alt="${s.title}" ${style} loading="lazy" />`;
+      }).join('');
+      
+      let demoLink = p.liveUrl ? `<a href="${p.liveUrl}" class="overlay-btn" aria-label="View live demo" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${p.liveText || 'Live'}</a>` : '';
+
+      $("#projects-grid").append(`
+        <article class="project-card hide" data-category="${p.category}" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
+          <div class="project-img-wrap">
+            <img src="${p.image}" alt="screenshot for ${p.title} project" loading="lazy" />
+            <div class="project-overlay">
+              ${demoLink}
+              <a href="${p.githubUrl}" class="overlay-btn overlay-btn-gh" aria-label="View on GitHub"><i class="fa-brands fa-github"></i> GitHub</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-tag">${p.tag}</span>
+            <h3>${p.title}</h3>
+            <p>${p.description}</p>
+            <h4 style="margin: 15px 0">Tools Used</h4>
+            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
+              ${stackHtml}
+            </div>
+          </div>
+        </article>
+      `);
+    });
+
+    // Initialize filtering
+    setTimeout(() => filterProjects("devops"), 100);
+
+    // 5. Testimonials
+    data.testimonials.forEach(t => {
+      $("#testimonials-slider").append(`
+        <div class="testimonial-card">
+          <div class="t-quote"><i class="fa-solid fa-quote-left"></i></div>
+          <p class="t-text">${t.quote}</p>
+          <div class="t-author">
+            <div class="t-avatar" aria-hidden="true">${t.initials}</div>
+            <div>
+              <strong>${t.author}</strong>
+              <span>${t.role}</span>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+
+    if ($.fn.slick) {
+      $("#testimonials-slider").slick({
+        dots: true,
+        arrows: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+      });
+    }
+
+    // CLI commands already reference COMMANDS directly — no overwrites needed.
+
+    // 6. Certifications
+    if (data.certifications) {
+      data.certifications.forEach((cert, i) => {
+        $("#certifications-grid").append(`
+          <article class="cert-card" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
+            <div class="cert-image-wrapper">
+              <img src="${cert.image}" alt="${cert.title} Certificate" class="cert-image" loading="lazy" />
+            </div>
+            <div class="cert-meta">
+              <span class="cert-date"><i class="fa-regular fa-calendar"></i> ${cert.date}</span>
+              <span class="cert-issuer">${cert.issuer}</span>
+            </div>
+            <h3>${cert.title}</h3>
+          </article>
+        `);
+      });
+    }
+    // 7. Dynamic HTML for Contact
+    $("#contact-text").text(data.contact.availability);
+    $("#contact-list").html(`
+      <li><i class="fa-solid fa-terminal"></i><span>${data.contact.email}</span></li>
+      <li><i class="fa-solid fa-phone"></i><span>${data.contact.phone}</span></li>
+      <li><i class="fa-solid fa-location-dot"></i><span>${data.contact.location}</span></li>
+      <li><i class="fa-brands fa-linkedin"></i><span>${data.contact.linkedin}</span></li>
+    `);
+
+    // 8. Dynamic HTML for Footer
+    $("#footer-tagline").html(`<span class="prompt-sym">$</span> echo "${data.footer.tagline}"`);
+    $("#footer-description").text(data.footer.description);
+    
+    // The GUI commands are now reading dynamically from PORTFOLIO_DATA directly.
+  }
+
+  // Run immediately
+  initDynamicContent();
+
 }); // end document.ready
