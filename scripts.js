@@ -34,17 +34,36 @@ $(function () {
 
   // ── Centralised view-mode helpers ──────────────────────────
   function setGuiMode() {
-    $("body").removeClass("cli-mode");
-    $("#viewToggle .toggle-label").text("CLI");
-    localStorage.setItem(VIEW_KEY, "gui");
+    const $curtain = $("#mode-curtain");
+    $curtain.addClass("active");
+
+    setTimeout(() => {
+      $("body").removeClass("cli-mode");
+      $("#viewToggle .toggle-label").text("CLI");
+      localStorage.setItem(VIEW_KEY, "gui");
+      $(window).trigger("resize");
+    }, 400);
+
+    setTimeout(() => {
+      $curtain.removeClass("active");
+    }, 900);
   }
 
   function setCliMode() {
-    $("body").addClass("cli-mode");
-    $("#viewToggle .toggle-label").text("GUI");
-    localStorage.setItem(VIEW_KEY, "cli");
-    setTimeout(() => $("#mainCliInput").focus(), 100);
-    window.scrollTo(0, 0);
+    const $curtain = $("#mode-curtain");
+    $curtain.addClass("active");
+
+    setTimeout(() => {
+      $("body").addClass("cli-mode");
+      $("#viewToggle .toggle-label").text("GUI");
+      localStorage.setItem(VIEW_KEY, "cli");
+      setTimeout(() => $("#mainCliInput").focus(), 100);
+      window.scrollTo(0, 0);
+    }, 400);
+
+    setTimeout(() => {
+      $curtain.removeClass("active");
+    }, 900);
   }
 
   // Restore saved view preference (default: GUI so about/projects show on first load)
@@ -214,18 +233,8 @@ $(function () {
     draw();
   })();
 
-  /* ═══════════════════════════════════════════════════════════
-     6. AOS (Animate On Scroll)
-     ═══════════════════════════════════════════════════════════ */
-  if (typeof AOS !== "undefined") {
-    AOS.init({
-      duration: 350,
-      easing: "ease-out",
-      once: true,
-      offset: 40,
-      delay: 0,
-    });
-  }
+  /* AOS initialization moved to end of script after dynamic content injection */
+
 
   /* ═══════════════════════════════════════════════════════════
      7. SLICK CAROUSEL — testimonials (initialized in initDynamicContent after content is injected)
@@ -1167,5 +1176,18 @@ $(function () {
 
   // Run immediately
   initDynamicContent();
+
+  // Initialize AOS AFTER dynamic content is in the DOM
+  if (typeof AOS !== "undefined") {
+    AOS.init({
+      duration: 350,
+      easing: "ease-out",
+      once: true,
+      offset: 40,
+      delay: 0,
+    });
+    // Refresh to catch injected elements
+    AOS.refresh();
+  }
 
 }); // end document.ready
