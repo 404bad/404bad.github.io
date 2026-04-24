@@ -1098,7 +1098,7 @@ $(function () {
             <h3>${p.title}</h3>
             <p>${p.description}</p>
             <h4 style="margin: 15px 0">Tools Used</h4>
-            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div class="project-stack" style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
               ${stackHtml}
             </div>
           </div>

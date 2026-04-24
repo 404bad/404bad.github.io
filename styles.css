@@ -1296,6 +1296,9 @@ body.cli-mode #main-cli-overlay {
   font-size: 0.9rem;
   color: var(--text-muted);
 }
+.project-stack img {
+  cursor: pointer;
+}
 
 /* ═══════════════════════════════════════════════════════════════
    TESTIMONIALS

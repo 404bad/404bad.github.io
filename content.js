@@ -36,6 +36,55 @@ const PORTFOLIO_DATA = {
     { "name": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png" }
   ],
   "projects": [
+    
+    {
+      "id": "edutrack",
+      "category": "devops",
+      "tag": "Dashboard",
+      "title": "Edutrack",
+      "description": "EduTrack is a full-stack Learning Management System built with the PERN stack (PostgreSQL, Express, React, Node.js).",
+      "image": "./assets/images/edutrack.png",
+      "liveUrl": "https://youtu.be/FJp91VXU-i0?si=ojC8p_ol9RjGss3g",
+      "liveText": "Demo",
+      "githubUrl": "https://github.com/kaibad/edutrack",
+      "stack": [
+        { "title": "TypeScript", "img": "https://img.icons8.com/color/48/typescript.png" },
+        { "title": "PostgreSQL", "img": "https://img.icons8.com/color/48/postgreesql.png" },
+        { "title": "Node.js", "img": "https://img.icons8.com/fluency/48/node-js.png" },
+        { "title": "Express.js", "img": "https://img.icons8.com/ios/50/express-js.png", "bg": true }
+      ]
+    },
+    {
+      "id": "s3-terraform",
+      "category": "devops",
+      "tag": "Terraform",
+      "title": "Static Site Hosting on S3",
+      "description": "Static site hosting on S3 with Terraform IAC. Automate your infrastructure deployment with ease.",
+      "image": "./assets/images/terraform-project.png",
+      "liveText": "Demo",
+      "githubUrl": "https://github.com/kaibad/static-site-terraform",
+      "stack": [
+        { "title": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png" },
+        { "title": "S3", "img": "https://img.icons8.com/nolan/64/amazon-s3.png" },
+      ]
+    },
+    {
+      "id": "cicd-pokemon-practice",
+      "category": "devops",
+      "tag": "CICD",
+      "title": "Pokemon",
+      "description": "Pokemon static website automated with jenkins, github actions, S3 ,code build, code deploy, ECR. ",
+      "image": "./assets/images/pokemon-cicd.png",
+      "liveText": "Demo",
+      "githubUrl": "https://github.com/404bad/pokemon.git",
+      "stack": [
+        { "title": "Jenkins", "img": "https://img.icons8.com/color/48/jenkins.png" },
+        { "title": "S3", "img": "https://img.icons8.com/nolan/64/amazon-s3.png" },
+        { "title": "CodeBuild", "img": "https://img.icons8.com/color-glass/48/github--v1.png" },
+        { "title": "CodeDeploy", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png" },
+        
+      ]
+    },
     {
       "id": "codesage",
       "category": "backend",
@@ -52,23 +101,6 @@ const PORTFOLIO_DATA = {
         { "title": "Node.js", "img": "https://img.icons8.com/fluency/48/node-js.png" },
         { "title": "Express.js", "img": "https://img.icons8.com/ios/50/express-js.png", "bg": true },
         { "title": "Prisma ORM", "img": "https://img.icons8.com/color/48/prisma-orm.png" }
-      ]
-    },
-    {
-      "id": "edutrack",
-      "category": "devops",
-      "tag": "Dashboard",
-      "title": "Edutrack",
-      "description": "EduTrack is a full-stack Learning Management System built with the PERN stack (PostgreSQL, Express, React, Node.js).",
-      "image": "./assets/images/edutrack.png",
-      "liveUrl": "https://youtu.be/FJp91VXU-i0?si=ojC8p_ol9RjGss3g",
-      "liveText": "Demo",
-      "githubUrl": "https://github.com/kaibad/edutrack",
-      "stack": [
-        { "title": "TypeScript", "img": "https://img.icons8.com/color/48/typescript.png" },
-        { "title": "PostgreSQL", "img": "https://img.icons8.com/color/48/postgreesql.png" },
-        { "title": "Node.js", "img": "https://img.icons8.com/fluency/48/node-js.png" },
-        { "title": "Express.js", "img": "https://img.icons8.com/ios/50/express-js.png", "bg": true }
       ]
     },
     {
