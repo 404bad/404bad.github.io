@@ -62,7 +62,7 @@ const PORTFOLIO_DATA = {
       "description": "Static site hosting on S3 with Terraform IAC. Automate your infrastructure deployment with ease.",
       "image": "./assets/images/terraform-project.png",
       "liveText": "Demo",
-      "githubUrl": "https://github.com/kaibad/static-site-terraform",
+      "githubUrl": "https://github.com/404bad/static-site-terraform",
       "stack": [
         { "title": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png" },
         { "title": "S3", "img": "https://img.icons8.com/nolan/64/amazon-s3.png" },
