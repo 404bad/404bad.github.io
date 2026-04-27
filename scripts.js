@@ -454,7 +454,13 @@ $(function () {
       res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.backend });
       res.push({ t: "blank" });
       res.push({ t: "out", v: '<span class="t-line-key">DevOps     :</span>' });
-      res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.devops });
+      if (Array.isArray(PORTFOLIO_DATA.skills.devops)) {
+        PORTFOLIO_DATA.skills.devops.forEach(s => {
+          res.push({ t: "bullet", v: `${s.name.padEnd(20)}${s.bar}  ${s.level}` });
+        });
+      } else {
+        res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.devops });
+      }
       res.push({ t: "blank" });
       res.push({ t: "out", v: '<span class="t-line-key">Databases  :</span>' });
       res.push({ t: "bullet", v: PORTFOLIO_DATA.skills.databases });

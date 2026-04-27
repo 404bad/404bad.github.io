@@ -2,7 +2,7 @@ const PORTFOLIO_DATA = {
   "general": {
     "name": "Kailash Badu",
     "role": "Backend Developer & DevOps Engineer",
-    "subtitle": "Building robust backends and eager to scale infrastructure. Passionate about Cloud Engineering and DevOps.",
+    "subtitle": "Passionate about Cloud Engineering & DevOps. Building the infrastructure that powers modern applications.",
     "email": "badukailash001@gmail.com",
     "resumeLink": "assets/Kailash-Badu-CV.pdf",
     "heroTyped": ["I build things for the web.", "I automate things.", "I live in the terminal."]
@@ -10,8 +10,10 @@ const PORTFOLIO_DATA = {
   "about": {
     "image": "./assets/images/kailash-badu-ai.png",
     "paragraphs": [
-      "Hey, I'm <strong>Kailash Badu</strong> — a Backend Developer & DevOps enthusiast based in Lalitpur, Nepal. I build robust web solutions at <strong>Jasper IT</strong>, and love turning complex problems into clean, reliable systems.",
-      "Currently pursuing my Bachelor's in Computer & Information Sciences at Tribhuvan University. I am actively taking an intensive DevOps course, and I am highly motivated to pursue a dedicated career in DevOps and Cloud Engineering."
+      "Hey, I'm <strong>Kailash Badu</strong> — a Backend Developer & DevOps enthusiast based in Lalitpur, Nepal.",
+      "Currently working at Jasper IT, where I build reliable web solutions and gained real-world experience in professional workflows and team collaboration. I bring hands-on corporate experience in web development with HTML, CSS, and JavaScript as my foundation.",
+      "I'm pursuing my Bachelor's in Computer & Information Sciences at Tribhuvan University, alongside an intensive DevOps training program — actively building skills in cloud infrastructure, CI/CD pipelines, and automation.",
+      "Highly motivated to grow into a dedicated DevOps & Cloud Engineering career."
     ],
     "stats": [
       { "num": "2.5+", "label": "Years Exp." },
@@ -168,15 +170,24 @@ const PORTFOLIO_DATA = {
   },
   "skills": {
     "languages": [
-      { "name": "JavaScript", "level": "Advanced", "bar": "██████████░░" },
-      { "name": "PHP", "level": "Intermediate", "bar": "████████░░░░" },
+      { "name": "JavaScript", "level": "Intermediate", "bar": "████████░░░░" },
+      { "name": "Python", "level": "Beginner", "bar": "███░░░░░░░░" },
       { "name": "SQL", "level": "Intermediate", "bar": "████████░░░░" },
-      { "name": "Bash", "level": "Intermediate", "bar": "████████░░░░" }
+      { "name": "Bash", "level": "Beginner", "bar": "███░░░░░░░░" }
     ],
-    "frontend": "HTML5, CSS3, React, Next.js",
-    "backend": "Node.js, Express, REST APIs, WordPress / WooCommerce",
-    "devops": "Docker, Kubernetes, Terraform, GitHub Actions, Jenkins, Linux",
-    "databases": "MySQL, PostgreSQL, SQLite"
+    "frontend": "HTML5, CSS3, React",
+    "backend": "Node.js, Express, REST APIs",
+    "devops": [
+      { "name": "Docker", "level": "Intermediate", "bar": "████████░░░░" },
+      { "name": "Kubernetes", "level": "Beginner", "bar": "█████░░░░░░░" },
+      { "name": "Terraform", "level": "Beginner", "bar": "█████░░░░░░░" },
+      { "name": "GitHub Actions", "level": "Intermediate", "bar": "████████░░░░" },
+      { "name": "Jenkins", "level": "Beginner", "bar": "█████░░░░░░░" },
+      { "name": "Linux", "level": "Intermediate", "bar": "████████░░░░" },
+      { "name": "AWS", "level": "Beginner", "bar": "█████░░░░░░░" },
+      { "name": "CI/CD Pipelines", "level": "Beginner", "bar": "█████░░░░░░░" }
+    ],
+    "databases": "MySQL, PostgreSQL, MongoDB"
   },
   "experience": [
     {
@@ -230,7 +241,7 @@ const PORTFOLIO_DATA = {
     },
     {
       "title": "React Development",
-      "issuer": "HackerRank",
+      "issuer": "SikaiIT",
       "date": "2025",
       "image": "./assets/images/cert-react.webp"
     }
