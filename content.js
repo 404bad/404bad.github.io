@@ -4,7 +4,7 @@ const PORTFOLIO_DATA = {
     "role": "Backend Developer & DevOps Engineer",
     "subtitle": "Passionate about Cloud Engineering & DevOps. Building the infrastructure that powers modern applications.",
     "email": "badukailash001@gmail.com",
-    "resumeLink": "assets/Kailash-Badu-CV.pdf",
+    "resumeLink": "assets/kailashbadu_devops_cv.pdf",
     "heroTyped": ["I build things for the web.", "I automate things.", "I live in the terminal."]
   },
   "about": {
