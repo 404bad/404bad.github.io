@@ -228,6 +228,22 @@ const PORTFOLIO_DATA = {
   },
   "certifications": [
     {
+      "title": "Professional DevOps Training Certificate",
+      "issuer": "Broadway Infosys",
+      "date": "2026",
+      "image": "./assets/images/1777535333_11618_802757_page-0001.webp",
+      "skills":[
+          {"title": "Linux", "img": "https://img.icons8.com/color/48/linux.png"},
+          {"title": "Bash", "img": "https://img.icons8.com/color/48/bash.png"},
+          {"title": "Docker", "img": "https://img.icons8.com/color/48/docker.png"},
+          {"title": "Kubernetes", "img": "https://img.icons8.com/color/48/kubernetes.png"},
+          {"title": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png"},
+          {"title": "GitHub Actions", "img": "https://img.icons8.com/color/48/github.png"},
+          {"title": "Jenkins", "img": "https://img.icons8.com/color/48/jenkins.png"},
+          {"title": "AWS", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png"}
+        ]
+    },
+    {
       "title": "GitHub Foundations",
       "issuer": "CodeIT",
       "date": "2025",

@@ -554,6 +554,10 @@ $(function () {
       PORTFOLIO_DATA.certifications.forEach(c => {
         res.push({ t: "out", v: `<span class="t-line-key">${c.title}</span>   [${c.issuer}]` });
         res.push({ t: "bullet", v: `Date: ${c.date}` });
+        if (c.skills && c.skills.length > 0) {
+          let skillsText = c.skills.map(s => s.title).join(", ");
+          res.push({ t: "bullet", v: `Skills: ${skillsText}` });
+        }
         res.push({ t: "blank" });
       });
       return res;
@@ -1150,6 +1154,20 @@ $(function () {
     // 6. Certifications
     if (data.certifications) {
       data.certifications.forEach((cert, i) => {
+        let skillsHtml = "";
+        if (cert.skills && cert.skills.length > 0) {
+          let stackHtml = cert.skills.map(s => {
+            let style = s.bg ? 'style="background-color: #fff; padding: 2px; border-radius: 2px;"' : '';
+            return `<img width="20" height="20" title="${s.title}" src="${s.img}" alt="${s.title}" ${style} loading="lazy" />`;
+          }).join('');
+          
+          skillsHtml = `
+            <div class="project-stack" style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+              ${stackHtml}
+            </div>
+          `;
+        }
+
         $("#certifications-grid").append(`
           <article class="cert-card" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
             <div class="cert-image-wrapper">
@@ -1160,6 +1178,7 @@ $(function () {
               <span class="cert-issuer">${cert.issuer}</span>
             </div>
             <h3>${cert.title}</h3>
+            ${skillsHtml}
           </article>
         `);
       });
