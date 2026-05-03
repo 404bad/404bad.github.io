@@ -41,7 +41,7 @@ const PORTFOLIO_DATA = {
     
     {
       "id": "edutrack",
-      "category": "devops",
+      "category": "backend",
       "tag": "Dashboard",
       "title": "Edutrack",
       "description": "EduTrack is a full-stack Learning Management System built with the PERN stack (PostgreSQL, Express, React, Node.js).",
@@ -54,6 +54,25 @@ const PORTFOLIO_DATA = {
         { "title": "PostgreSQL", "img": "https://img.icons8.com/color/48/postgreesql.png" },
         { "title": "Node.js", "img": "https://img.icons8.com/fluency/48/node-js.png" },
         { "title": "Express.js", "img": "https://img.icons8.com/ios/50/express-js.png", "bg": true }
+      ]
+    },
+    {
+      "id": "message-board",
+      "category": "devops",
+      "tag": "DevOps",
+      "title": "Message Board",
+      "description": "A 2-tier web application built with Flask and MySQL, containerized with Docker, deployed to Kubernetes using argo cd and Helm on AWS EKS.",
+      "image": "./assets/images/message-board.png",
+      // "liveUrl": "https://youtu.be/FJp91VXU-i0?si=ojC8p_ol9RjGss3g",
+      // "liveText": "Demo",
+      "githubUrl": "https://github.com/kaibad/message-board",
+      "stack": [
+        { "title": "Docker", "img": "https://img.icons8.com/fluency/48/docker.png" },
+        { "title": "Kubernetes", "img": "https://img.icons8.com/color/48/kubernetes.png" },
+        { "title": "Helm", "img": "https://img.icons8.com/external-flat-juicy-fish/60/external-development-devops-flat-flat-juicy-fish.png" },
+        { "title": "Argo CD", "img": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/argo-cd.webp" },
+        { "title": "Github", "img": "https://img.icons8.com/color-glass/48/github--v1.png" },
+        { "title": "AWS", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png" },
       ]
     },
     {
