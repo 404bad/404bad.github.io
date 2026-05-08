@@ -599,7 +599,7 @@ $(function () {
     return (
       '<span class="prompt-user">kailash</span>' +
       '<span class="prompt-at">@</span>' +
-      '<span class="prompt-host">fedora</span>' +
+      '<span class="prompt-host">devops</span>' +
       '<span class="prompt-colon">:</span>' +
       '<span class="prompt-dir">~</span>' +
       '<span class="prompt-sym">$</span> '
@@ -953,7 +953,7 @@ $(function () {
 
     // Echo prompt + command
     mainAppendHtml(
-      '<span class="prompt-user" style="color:#facc15">kailashbadu</span><span class="prompt-at" style="color:#7d8590">@</span><span class="prompt-host" style="color:#4ade80">fedora</span><span class="prompt-colon" style="color:#7d8590">:</span><span class="prompt-dir" style="color:#38bdf8">~</span><span class="prompt-sym" style="color:#7d8590">$</span> ' +
+      '<span class="prompt-user" style="color:#facc15">kailashbadu</span><span class="prompt-at" style="color:#7d8590">@</span><span class="prompt-host" style="color:#4ade80">devops</span><span class="prompt-colon" style="color:#7d8590">:</span><span class="prompt-dir" style="color:#38bdf8">~</span><span class="prompt-sym" style="color:#7d8590">$</span> ' +
       raw
     );
 

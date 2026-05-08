@@ -286,7 +286,7 @@ const PORTFOLIO_DATA = {
       "title": "From Fear of Linux to Learning DevOps",
       "image": "assets/images/myfearlinux.jpg",
       "url": "https://medium.com/@kailashbaduatwork/from-fear-of-linux-to-learning-devops-4afedaf4cb62",
-      "date": "May 2024",
+      "date": "May 2026",
       "excerpt": "A personal journey of overcoming the initial intimidation of the Linux command line and embracing the DevOps philosophy."
     }
   ],
