@@ -413,6 +413,7 @@ $(function () {
       { t: "bullet", v: '<span class="t-line-key">contact</span>      — How to reach me' },
       { t: "bullet", v: '<span class="t-line-key">hobbies</span>      — What I do for fun' },
       { t: "bullet", v: '<span class="t-line-key">certifications</span> — My certifications' },
+      { t: "bullet", v: '<span class="t-line-key">blogs</span>          — My latest blog posts' },
       { t: "bullet", v: '<span class="t-line-key">setup</span>        — My dev environment' },
       { t: "bullet", v: '<span class="t-line-key">clear</span>        — Clear terminal' },
       { t: "bullet", v: '<span class="t-line-key">cli</span>          — Go to full-screen CLI' },
@@ -558,6 +559,20 @@ $(function () {
           let skillsText = c.skills.map(s => s.title).join(", ");
           res.push({ t: "bullet", v: `Skills: ${skillsText}` });
         }
+        res.push({ t: "blank" });
+      });
+      return res;
+    },
+
+    blogs: () => {
+      let res = [
+        { t: "info", v: "$ ls -la ~/blogs/" },
+        { t: "blank" }
+      ];
+      PORTFOLIO_DATA.blogs.forEach(b => {
+        res.push({ t: "out", v: `<span class="t-line-key">${b.title}</span>` });
+        res.push({ t: "bullet", v: `Date: ${b.date}` });
+        res.push({ t: "bullet", v: b.excerpt });
         res.push({ t: "blank" });
       });
       return res;
@@ -820,6 +835,7 @@ $(function () {
     // ── Help (CLI-specific: includes gui command instead of cli) ──
     help: () => [
       { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">about</span>          - about Kailash' },
+      { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">blogs</span>          - my latest blog posts' },
       { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">certifications</span> - my certifications' },
       { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">clear</span>          - clear the terminal' },
       { t: "bullet", v: '<span class="t-line-key" style="color:var(--accent)">contact</span>        - how to reach me' },
@@ -853,6 +869,7 @@ $(function () {
     contact:    COMMANDS.contact,
     hobbies:    COMMANDS.hobbies,
     certifications: COMMANDS.certifications,
+    blogs:      COMMANDS.blogs,
     setup:      COMMANDS.setup,
     whoami:     COMMANDS.whoami,
 
@@ -1183,7 +1200,32 @@ $(function () {
         `);
       });
     }
-    // 7. Dynamic HTML for Contact
+
+    // 7. Blogs
+    if (data.blogs) {
+      data.blogs.forEach((b, i) => {
+        $("#blogs-grid").append(`
+          <article class="blog-card" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
+            <div class="blog-img-wrap">
+              <img src="${b.image}" alt="${b.title}" loading="lazy" />
+            </div>
+            <div class="blog-info">
+              <div class="blog-meta">
+                <span><i class="fa-regular fa-calendar"></i> ${b.date}</span>
+                <span><i class="fa-brands fa-medium"></i> Medium</span>
+              </div>
+              <h3>${b.title}</h3>
+              <p class="blog-excerpt">${b.excerpt}</p>
+              <a href="${b.url}" target="_blank" class="blog-link">
+                Read full article <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        `);
+      });
+    }
+
+    // 8. Dynamic HTML for Contact
     $("#contact-text").text(data.contact.availability);
     $("#contact-list").html(`
       <li><i class="fa-solid fa-terminal"></i><span>${data.contact.email}</span></li>

@@ -281,6 +281,15 @@ const PORTFOLIO_DATA = {
       "image": "./assets/images/cert-react.webp"
     }
   ],
+  "blogs": [
+    {
+      "title": "From Fear of Linux to Learning DevOps",
+      "image": "assets/images/myfearlinux.jpg",
+      "url": "https://medium.com/@kailashbaduatwork/from-fear-of-linux-to-learning-devops-4afedaf4cb62",
+      "date": "May 2024",
+      "excerpt": "A personal journey of overcoming the initial intimidation of the Linux command line and embracing the DevOps philosophy."
+    }
+  ],
   "footer": {
     "tagline": "Architecting reliable systems and automating the future.",
     "description": "Backend Developer & DevOps enthusiast dedicated to building high-performance, scalable cloud infrastructures. Currently exploring the intersection of distributed systems and automation."
