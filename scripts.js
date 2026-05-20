@@ -1257,4 +1257,93 @@ $(function () {
     AOS.refresh();
   }
 
+  /* ═══════════════════════════════════════════════════════════
+     18. PREMIUM TERMINAL-THEMED CUSTOM CURSOR
+     ═══════════════════════════════════════════════════════════ */
+  (function initCustomCursor() {
+    // Only initialize custom cursor on devices that support hover / hover interaction
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      return;
+    }
+
+    // 1. Create and inject cursor HTML elements
+    const $dot = $('<div class="custom-cursor-dot"></div>');
+    const $outline = $('<div class="custom-cursor-outline"></div>');
+    
+    // Set initial offscreen coordinates so they don't flash in the top-left on boot
+    $dot.css({ opacity: 0, transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)' });
+    $outline.css({ opacity: 0, transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)' });
+    
+    $('body').append($dot).append($outline);
+
+    // 2. State variables
+    let mouse = { x: -100, y: -100 }; // mouse target position
+    let dotPos = { x: -100, y: -100 }; // dot position (follows mouse instantly or fast)
+    let outlinePos = { x: -100, y: -100 }; // outline follower position (smooth spring physics)
+    let isClicked = false;
+
+    // 3. Mouse move tracking
+    $(document).on('mousemove', function(e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+
+      // Make custom cursor elements visible on first move
+      $dot.css('opacity', 1);
+      $outline.css('opacity', 1);
+    });
+
+    // 4. Mouse leave/enter browser viewport behavior
+    $(document).on('mouseleave', function() {
+      $dot.css('opacity', 0);
+      $outline.css('opacity', 0);
+    }).on('mouseenter', function() {
+      $dot.css('opacity', 1);
+      $outline.css('opacity', 1);
+    });
+
+    // 5. Track interactive hover elements
+    const hoverSelector = 'a, button, input, textarea, select, [role="button"], .tool-card, .project-card, .testimonial-card, .t-hint-btn, .hamburger, .theme-toggle, .t-header-btn';
+    
+    $(document).on('mouseenter', hoverSelector, function() {
+      $dot.addClass('hovered');
+      $outline.addClass('hovered');
+    }).on('mouseleave', hoverSelector, function() {
+      $dot.removeClass('hovered');
+      $outline.removeClass('hovered');
+    });
+
+    // Handle clicks for active cursor feedback (slight shrink)
+    $(document).on('mousedown', function() {
+      isClicked = true;
+    }).on('mouseup', function() {
+      isClicked = false;
+    });
+
+    // 6. Core Render Loop (Interpolation / Spring Physics)
+    function renderLoop() {
+      // Spring physics variables
+      // Dot position moves fast
+      dotPos.x += (mouse.x - dotPos.x) * 0.35;
+      dotPos.y += (mouse.y - dotPos.y) * 0.35;
+      
+      // Outline position uses slower interpolation/damping for trailing lag
+      outlinePos.x += (mouse.x - outlinePos.x) * 0.16;
+      outlinePos.y += (mouse.y - outlinePos.y) * 0.16;
+      
+      // Determine click scaling
+      const scaleDot = isClicked ? 0.7 : 1.0;
+      const scaleOutline = isClicked ? 0.85 : 1.0;
+      
+      // Position custom cursor elements using hardware-accelerated translate3d
+      $dot.css('transform', `translate3d(${dotPos.x}px, ${dotPos.y}px, 0) translate(-50%, -50%) scale(${scaleDot})`);
+      $outline.css('transform', `translate3d(${outlinePos.x}px, ${outlinePos.y}px, 0) translate(-50%, -50%) scale(${scaleOutline})`);
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    // Kickstart loop
+    requestAnimationFrame(renderLoop);
+  })();
+
 }); // end document.ready
+

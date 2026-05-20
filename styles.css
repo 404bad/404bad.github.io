@@ -2138,3 +2138,75 @@ body.cli-mode #main-cli-overlay {
 .overlay-btn {
   transition: all var(--trans);
 }
+
+/* ─────────────────── CUSTOM CURSOR STYLING ─────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none !important;
+  }
+  a, button, input, textarea, select, [role="button"], .tool-card, .project-card, .testimonial-card, .t-hint-btn, .hamburger, .theme-toggle, .t-header-btn {
+    cursor: none !important;
+  }
+  
+  .custom-cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-radius 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* When hovering over interactive elements, the dot morphs into a terminal block */
+  .custom-cursor-dot.hovered {
+    width: 12px;
+    height: 18px;
+    border-radius: 1px;
+    background-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    animation: cursor-block-blink 1.2s infinite steps(1);
+  }
+  
+  .custom-cursor-outline {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--accent);
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.1);
+    background-color: rgba(74, 222, 128, 0.01);
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(0.5px);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.3s ease, 
+                background-color 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+  
+  .custom-cursor-outline.hovered {
+    width: 52px;
+    height: 52px;
+    border-color: var(--accent2);
+    background-color: var(--bg-glass);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
+  }
+}
+
+@keyframes cursor-block-blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+

@@ -4,7 +4,7 @@ const PORTFOLIO_DATA = {
     "role": "Backend Developer & DevOps Engineer",
     "subtitle": "Passionate about Cloud Engineering & DevOps. Building the infrastructure that powers modern applications.",
     "email": "badukailash001@gmail.com",
-    "resumeLink": "assets/Kailash_Badu_CV.pdf",
+    "resumeLink": "assets/Kailash_Badu.pdf",
     "heroTyped": ["I build things for the web.", "I automate things.", "I live in the terminal."]
   },
   "about": {
@@ -38,7 +38,7 @@ const PORTFOLIO_DATA = {
     { "name": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png" }
   ],
   "projects": [
-    
+
     {
       "id": "edutrack",
       "category": "backend",
@@ -90,6 +90,23 @@ const PORTFOLIO_DATA = {
       ]
     },
     {
+      "id": "devops-automation-toolkit",
+      "category": "devops",
+      "tag": "Automation",
+      "title": "DevOps Automation Toolkit",
+      "description": "It’s one modular CLI-based project so I could see how they all connect and work together.",
+      "image": "./assets/images/devops-toolkit.webp",
+      "liveText": "Demo",
+      "githubUrl": "https://github.com/404bad/static-site-terraform",
+      "stack": [
+        { "title": "Python", "img": "https://img.icons8.com/color/48/python.png" },
+        { "title": "Boto3", "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRssIKg8L1_nJUlmuWBO3BcZNAWECaZlNUHBg&s" },
+        { "title": "Docker SDK", "img": "https://img.icons8.com/color/48/docker.png" },
+        { "title": "GitHub API", "img": "https://img.icons8.com/color/48/github.png" },
+        { "title": "AWS", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png" },
+      ]
+    },
+    {
       "id": "cicd-pokemon-practice",
       "category": "devops",
       "tag": "CICD",
@@ -103,7 +120,7 @@ const PORTFOLIO_DATA = {
         { "title": "S3", "img": "https://img.icons8.com/nolan/64/amazon-s3.png" },
         { "title": "CodeBuild", "img": "https://img.icons8.com/color-glass/48/github--v1.png" },
         { "title": "CodeDeploy", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png" },
-        
+
       ]
     },
     {
@@ -251,16 +268,16 @@ const PORTFOLIO_DATA = {
       "issuer": "Broadway Infosys",
       "date": "2026",
       "image": "./assets/images/1777535333_11618_802757_page-0001.webp",
-      "skills":[
-          {"title": "Linux", "img": "https://img.icons8.com/color/48/linux.png"},
-          {"title": "Bash", "img": "https://img.icons8.com/color/48/bash.png"},
-          {"title": "Docker", "img": "https://img.icons8.com/color/48/docker.png"},
-          {"title": "Kubernetes", "img": "https://img.icons8.com/color/48/kubernetes.png"},
-          {"title": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png"},
-          {"title": "GitHub Actions", "img": "https://img.icons8.com/color/48/github.png"},
-          {"title": "Jenkins", "img": "https://img.icons8.com/color/48/jenkins.png"},
-          {"title": "AWS", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png"}
-        ]
+      "skills": [
+        { "title": "Linux", "img": "https://img.icons8.com/color/48/linux.png" },
+        { "title": "Bash", "img": "https://img.icons8.com/color/48/bash.png" },
+        { "title": "Docker", "img": "https://img.icons8.com/color/48/docker.png" },
+        { "title": "Kubernetes", "img": "https://img.icons8.com/color/48/kubernetes.png" },
+        { "title": "Terraform", "img": "https://img.icons8.com/color/48/terraform.png" },
+        { "title": "GitHub Actions", "img": "https://img.icons8.com/color/48/github.png" },
+        { "title": "Jenkins", "img": "https://img.icons8.com/color/48/jenkins.png" },
+        { "title": "AWS", "img": "https://img.icons8.com/nolan/64/amazon-web-services.png" }
+      ]
     },
     {
       "title": "GitHub Foundations",
