@@ -97,7 +97,7 @@ const PORTFOLIO_DATA = {
       "description": "It’s one modular CLI-based project so I could see how they all connect and work together.",
       "image": "./assets/images/devops-toolkit.webp",
       "liveText": "Demo",
-      "githubUrl": "https://github.com/404bad/static-site-terraform",
+      "githubUrl": "https://github.com/kaibad/devops-toolkit",
       "stack": [
         { "title": "Python", "img": "https://img.icons8.com/color/48/python.png" },
         { "title": "Boto3", "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRssIKg8L1_nJUlmuWBO3BcZNAWECaZlNUHBg&s" },
